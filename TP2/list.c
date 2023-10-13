@@ -28,17 +28,17 @@ list *emptyList(){
     return listNull;
 }
 
-void append(list *myList, stars myStar){
+/*void append(list *myList, stars myStar){
     list *current = myList;
     while (current->next != NULL) {
         current = current->next;
     }
 
-    /* now we can add a new variable */
+    /* now we can add a new variable 
     current->next = (node_t *) malloc(sizeof(node_t));
     current->next->val = val;
     current->next->next = NULL;
-}
+}*/
 
 void initStar(stars *starstructure)
 {
