@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct info{
+typedef struct star{
     long long identifier; // numeric star identifier
     char name[21]; // name of the star in the form of a string
     char constellation[4]; // name of the star's constellation
@@ -13,32 +13,34 @@ typedef struct info{
 
 typedef struct node_t{
     stars starNode;
-    struct node *next;
+    struct node_t * next;
 }node;
 
-typedef struct list_t{
-    node *head;
-    node *tail;
-}list;
+node *list = NULL;
 
-list *emptyList(){
-    list *listNull;
-    listNull->head = NULL;
-    listNull->head = NULL;
-    return listNull;
+node *emptyList(){
+    return NULL;
 }
 
-/*void append(list *myList, stars myStar){
-    list *current = myList;
-    while (current->next != NULL) {
-        current = current->next;
+void append(node *list, stars *myStar){
+    node *new = (node *) malloc(sizeof(node));
+    node *current = (node *) malloc(sizeof(node));
+    
+    if(list == NULL){
+        memcpy ( &list->starNode, &myStar, sizeof(stars) );
+        list->next = NULL;
     }
-
-    /* now we can add a new variable 
-    current->next = (node_t *) malloc(sizeof(node_t));
-    current->next->val = val;
-    current->next->next = NULL;
-}*/
+    else{
+        current = list;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        memcpy ( &new->starNode, &myStar, sizeof(stars) );
+        current->next = new;
+        new->next = NULL;    
+    }
+}
 
 void initStar(stars *starstructure)
 {
@@ -150,7 +152,7 @@ void test()
     char *out3 = splitPrefix(in3, ':');
     printf("%s %s\n", in3, out3); 
 
-    stars star = {30365,"Canopus","Car", 94,-0.62};
+   
     printStar (stdout, &star);
 
     stars testStar;
