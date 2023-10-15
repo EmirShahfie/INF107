@@ -1,0 +1,5 @@
+gcc -I ./include -c ./src/star.c -o ./exec/star.o
+gcc -I ./include -c ./src/star-list.c -o ./exec/star-list.o
+gcc -I ./include -c ./src/star-database.c -o ./exec/star-database.o
+gcc -I ./include -c stars.c -o ./exec/stars.o
+gcc -I ./exec -o stars ./exec/star.o ./exec/star-list.o ./exec/star-database.o ./exec/stars.o

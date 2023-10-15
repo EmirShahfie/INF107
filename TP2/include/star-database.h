@@ -3,7 +3,7 @@
 
 #include "star-list.h"
 
-static char *splitPrefix(char *s, char delimiter);
+char *splitPrefix(char *s, char delimiter);
 
 extern bool readStar(FILE *f, stars *etoile);
 
