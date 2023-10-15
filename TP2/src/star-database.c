@@ -1,68 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
-typedef struct star{
-    long long identifier; // numeric star identifier
-    char name[21]; // name of the star in the form of a string
-    char constellation[4]; // name of the star's constellation
-    int distance; // star's distance from Earth in Parsecs
-    float magnitude; // star's magnitude
-}stars;
-
-typedef struct node_t{
-    stars starNode;
-    struct node_t * next;
-}node;
-
-node *emptyList(){
-    return NULL;
-}
-
-void append(node *list, stars *myStar){
-    node *new = (node *) malloc(sizeof(node));
-    node *current = (node *) malloc(sizeof(node));
-    
-    memcpy ( &list->starNode, &myStar, sizeof(stars) );    
-    
-    if(list == NULL){
-        list->next = NULL;
-    }
-    else{
-        current = list;
-        while (current->next != NULL)
-        {
-            current = current->next;
-        }
-        memcpy ( &new->starNode, &myStar, sizeof(stars) );
-        current->next = new;
-        new->next = NULL;    
-    }
-}
-
-void freeList(node *list){
-    while(list != NULL){
-        node *temp = list->next;
-        free(list);
-        list = temp;
-    }
-}
-
-void initStar(stars *starstructure)
-{
-    starstructure->identifier = 0;
-    starstructure->distance = 0;
-    starstructure->magnitude = 0.0;
-    for (int i = 0; i < 21; i++)
-    {
-        starstructure->name[i] = '\0';
-    }
-    for (int j = 0; j < 4; j++)
-    {
-        starstructure->constellation[j] = '\0';
-    }
-}
+#include "star-database.h"
 
 void printStar(FILE *file,const stars *star)
 {
@@ -121,7 +57,7 @@ bool readStar(FILE *f, stars *etoile)
     return NULL;
 }
 
-node *openFile(const char *file)
+node *readAllStar(const char *file)
 {
     FILE *f = fopen(file, "r");
     
@@ -168,23 +104,4 @@ void test()
     //initStar(&testStar);
     printStar(stdout,&testStar);*/
 
-}
-
-int main(int argc, char *argv[])
-{
-    //test();
-    if (argc != 2) 
-    {
-        fprintf (stderr,"error");
-        exit(EXIT_FAILURE);
-    }
-    
-    node *list = openFile(argv[1]);
-    node *ptr = list;
-    while(ptr != NULL){
-        printStar(stdout,&ptr->starNode);
-        ptr = ptr->next;
-    }
-    freeList(list);
-    return EXIT_SUCCESS;
 }
