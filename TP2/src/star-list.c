@@ -4,25 +4,27 @@ node *emptyList(){
     return NULL;
 }
 
-void append(node *list, stars *myStar){
+node *append(node *list, stars *myStar){
     node *new = (node *) malloc(sizeof(node));
-    node *current = (node *) malloc(sizeof(node));
-    
-    memcpy ( &list->starNode, &myStar, sizeof(stars) );    
-    
-    if(list == NULL){
-        list->next = NULL;
+    if (new == NULL) {
+        fprintf(stderr, "Error: could not allocate memory for new node\n");
+        return NULL;
     }
-    else{
-        current = list;
-        while (current->next != NULL)
-        {
+
+    memcpy(&new->starNode, myStar, sizeof(stars));
+
+    if (list == NULL) {
+        list = new;
+        new->next = NULL;
+    } else {
+        node *current = list;
+        while (current->next != NULL) {
             current = current->next;
         }
-        memcpy ( &new->starNode, &myStar, sizeof(stars) );
         current->next = new;
-        new->next = NULL;    
+        new->next = NULL;
     }
+    return list;
 }
 
 void freeList(node *list){

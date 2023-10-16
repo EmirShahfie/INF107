@@ -55,7 +55,7 @@ node *readAllStar(const char *file)
     stars newStar;
 
     while(readStar(f,&newStar)){
-        append(list,&newStar);
+        list = append(list,&newStar);
     }
     
     return list;

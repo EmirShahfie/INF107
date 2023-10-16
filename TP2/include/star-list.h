@@ -10,7 +10,7 @@ typedef struct node_t{
 
 extern node *emptyList();
 
-extern void append(node *list, stars *myStar);
+extern node *append(node *list, stars *myStar);
 
 extern void freeList(node *list);
 

@@ -20,25 +20,27 @@ node *emptyList(){
     return NULL;
 }
 
-void append(node *list, stars *myStar){
+node *append(node *list, stars *myStar){
     node *new = (node *) malloc(sizeof(node));
-    node *current = (node *) malloc(sizeof(node));
-    
-    memcpy ( &list->starNode, &myStar, sizeof(stars) );    
-    
-    if(list == NULL){
-        list->next = NULL;
+    if (new == NULL) {
+        fprintf(stderr, "Error: could not allocate memory for new node\n");
+        return NULL;
     }
-    else{
-        current = list;
-        while (current->next != NULL)
-        {
+
+    memcpy(&new->starNode, myStar, sizeof(stars));
+
+    if (list == NULL) {
+        list = new;
+        new->next = NULL;
+    } else {
+        node *current = list;
+        while (current->next != NULL) {
             current = current->next;
         }
-        memcpy ( &new->starNode, &myStar, sizeof(stars) );
         current->next = new;
-        new->next = NULL;    
+        new->next = NULL;
     }
+    return list;
 }
 
 void freeList(node *list){
@@ -121,17 +123,20 @@ bool readStar(FILE *f, stars *etoile)
     return NULL;
 }
 
-node *openFile(const char *file)
+node *readAllStars(const char *file)
 {
     FILE *f = fopen(file, "r");
-    
+    if (f == NULL) {
+        fprintf(stderr, "Error: could not open file %s\n", file);
+        return NULL;
+    }
     node *list = emptyList();
     stars newStar;
 
     while(readStar(f,&newStar)){
-        append(list,&newStar);
+        list = append(list,&newStar);
     }
-    
+    fclose(f);
     return list;
 
     /*stars arrays[311];
@@ -179,7 +184,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     
-    node *list = openFile(argv[1]);
+    node *list = readAllStars(argv[1]);
     node *ptr = list;
     while(ptr != NULL){
         printStar(stdout,&ptr->starNode);
